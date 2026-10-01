@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access.motorcycle.product.template,access_motorcycle_product_template,mgc_motorcycle_parts.model_motorcycle_product_template,base.group_user,1,1,1,1
+access.motorcycle.customer,access_motorcycle_customer,mgc_motorcycle_parts.model_motorcycle_customer,base.group_user,1,1,1,1
+access.mgc.motorcycle.orders,access_mgc_motorcycle_orders,mgc_motorcycle_parts.model_mgc_motorcycle_orders,base.group_user,1,1,1,1
+access.orders.line,access_orders_line,mgc_motorcycle_parts.model_orders_line,base.group_user,1,1,1,1
+access.payment.confirm.wizard,access_payment_confirm_wizard,mgc_motorcycle_parts.model_payment_confirm_wizard,base.group_user,1,1,1,1

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_customer_details" model="ir.actions.report">
+        <field name="name">Customer Details</field>
+        <field name="model">motorcycle.customer</field>
+        <field name="report_type">qweb-pdf</field>
+        <!--    template id -->
+        <field name="report_name">mgc_motorcycle_parts.report_customer_id_card</field>
+        <field name="report_file">mgc_motorcycle_parts.report_customer_id_card</field>
+        <field name="binding_model_id" ref="model_motorcycle_customer"/>
+    </record>
+
+    <record id="action_report_product_sticker" model="ir.actions.report">
+        <field name="name">Barcode Sticker</field>
+        <field name="model">motorcycle.product.template</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mgc_motorcycle_parts.report_product_sticker_template_view</field>
+        <field name="report_file">mgc_motorcycle_parts.report_product_sticker_template_view</field>
+        <field name="binding_model_id" ref="model_motorcycle_product_template"/>
+    </record>
+
+    <record id="report_orders_details" model="ir.actions.report">
+        <field name="name">Order Details</field>
+        <field name="model">mgc.motorcycle.orders</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mgc_motorcycle_parts.report_order_template_view</field>
+        <field name="report_file">mgc_motorcycle_parts.report_order_template_view</field>
+        <field name="binding_model_id" ref="model_mgc_motorcycle_orders"/>
+    </record>
+
+</odoo>

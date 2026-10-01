@@ -1,0 +1,129 @@
+<odoo>
+    <record id="motorcycle_costumer_order_form_view" model="ir.ui.view">
+        <field name="name">motorcycle.customer.order.form.view</field>
+        <field name="model">mgc.motorcycle.orders</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" nolabel="1"
+                           statusbar_visible="draft"/>
+                    <button name="action_paid" string="Mark as Paid" class="oe_highlight"
+                            type="object" invisible="state == 'paid' or payment_method == 'partial' "/>
+                    <button name="action_remaining_paid" string="Mark as Partial Paid" class="oe_highlight"
+                            type="object" invisible="state == 'partial' or payment_method == 'full' "/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="reference"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="customer_id"/>
+                            <field name="payment_method"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Order line" name="order">
+                            <field name="product_line_ids">
+                                <tree editable="bottom" decoration-danger="insufficient_qty">
+                                    <field name="insufficient_qty" column_invisible="1"/>
+                                    <field name="product_id"/>
+                                    <field name="price_unit" widget="monetary"/>
+                                    <field name="qty"/>
+                                    <field name="currency_id" column_invisible="1"/>
+                                    <field name="price_subtotal" widget="monetary"/>
+                                </tree>
+                            </field>
+                            <div class="oe_subtotal_footer" style="margin-top:20px; text-align:right;">
+                                <div class="o_form_label o_form_label_help">
+                                    Total Amount
+                                </div>
+
+                                <div style="font-size:18px;font-weight:bold;">
+                                    <field name="total_price" widget="monetary" readonly="1"/>
+                                </div>
+                            </div>
+
+                            <div class="oe_subtotal_footer" style="margin-top:20px; text-align:right;">
+                                <div class="o_form_label o_form_label_help">
+                                    Paid Amount
+                                </div>
+
+                                <div style="font-size:18px;font-weight:bold;">
+                                    <field name="paid_amount" widget="monetary"/>
+                                </div>
+                            </div>
+
+                            <div class="oe_subtotal_footer" invisible="payment_method == 'full'" style="margin-top:20px; text-align:right;">
+                                <div class="o_form_label o_form_label_help">
+                                    Remaining Amount
+                                </div>
+
+                                <div style="font-size:18px;font-weight:bold;">
+                                    <field name="remaining_amount" widget="monetary"/>
+                                </div>
+                            </div>
+
+                            <div class="oe_subtotal_footer" invisible="payment_method == 'partial'" style="margin-top:20px; text-align:right;">
+                                <div class="o_form_label o_form_label_help">
+                                    Rest Paid
+                                </div>
+
+                                <div style="font-size:18px;font-weight:bold;">
+                                    <field name="rest_of_paid" widget="monetary"/>
+                                </div>
+                            </div>
+
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="motorcycle_customer_order_tree_view" model="ir.ui.view">
+        <field name="name">motorcycle.customer.tree.view</field>
+        <field name="model">mgc.motorcycle.orders</field>
+        <field name="arch" type="xml">
+            <tree>
+
+                <field name="reference"/>
+                <field name="customer_id"/>
+                <field name="date"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'paid'"
+                       decoration-info="state == 'draft'"
+                       decoration-danger="state == 'cancel'"
+                       decoration-warning="state == 'partial'"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="customer_order_search_view" model="ir.ui.view">
+        <field name="name">customer.search.view</field>
+        <field name="model">mgc.motorcycle.orders</field>
+        <field name="arch" type="xml">
+            <search>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_motorcycle_customer_order_view" model="ir.actions.act_window">
+        <field name="name">Orders</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">mgc.motorcycle.orders</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first order !
+            </p>
+        </field>
+    </record>
+</odoo>

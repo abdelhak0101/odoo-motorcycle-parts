@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <template id="report_order_template_view">
+
+            <!-- Main HTML container -->
+            <t t-call="web.html_container">
+
+                <!-- Loop through selected orders -->
+                <t t-foreach="docs" t-as="o">
+
+                    <!-- Odoo header/footer layout -->
+                    <t t-call="web.external_layout">
+
+                        <!-- One PDF page -->
+                        <div class="page">
+
+                            <!-- ========================= -->
+                            <!-- TITLE -->
+                            <!-- ========================= -->
+
+                            <div style="text-align:center; margin-bottom:25px;">
+
+                                <h1>
+                                    ORDER REPORT
+                                </h1>
+
+                            </div>
+
+                            <!-- ========================= -->
+                            <!-- ORDER INFORMATION -->
+                            <!-- ========================= -->
+
+                            <div style="margin-bottom:25px;font-size:19px;line-height:25px;">
+
+                                <div>
+                                    <strong>Order Number :</strong>
+                                    <span t-field="o.reference"/>
+                                </div>
+
+                                <div>
+                                    <strong>Date :</strong>
+                                    <span t-field="o.date"/>
+                                </div>
+
+                                <div>
+                                    <strong>Customer :</strong>
+                                    <span t-field="o.customer_id"/>
+                                </div>
+
+                            </div>
+
+                            <!-- ========================= -->
+                            <!-- PRODUCTS TABLE -->
+                            <!-- ========================= -->
+
+                            <table style="
+                                width:100%;
+                                border-collapse:collapse;
+                                border:1px solid black;
+                            ">
+                                <style>
+                                    tbody td {
+                                    padding: 2px !important;
+                                    line-height: 8px !important;
+                                    }
+                                </style>
+
+                                <!-- TABLE HEADER -->
+                                <thead>
+
+                                    <tr style="
+                                        background-color:#d3d3d3;
+                                        text-align:center;
+                                    ">
+
+                                        <th style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                        ">
+                                            Product
+                                        </th>
+
+                                        <th style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                        ">
+                                            Quantity
+                                        </th>
+
+                                        <th style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                        ">
+                                            Unit Price
+                                        </th>
+
+                                        <th style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                        ">
+                                            Subtotal
+                                        </th>
+
+                                    </tr>
+
+                                </thead>
+
+                                <!-- TABLE BODY -->
+                                <tbody>
+
+                                    <!-- Loop order lines -->
+                                    <tr t-foreach="o.product_line_ids" t-as="line">
+
+                                        <!-- PRODUCT -->
+                                        <td style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                        ">
+                                            <span t-field="line.product_id"/>
+                                        </td>
+
+                                        <!-- QUANTITY -->
+                                        <td style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                            text-align:center;
+                                        ">
+                                            <span t-field="line.qty"/>
+                                        </td>
+
+                                        <!-- PRICE -->
+                                        <td style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                            text-align:center;
+                                        ">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+
+                                        <!-- SUBTOTAL -->
+                                        <td style="
+                                            border:1px solid black;
+                                            padding:8px;
+                                            text-align:center;
+                                        ">
+                                            <span t-field="line.price_subtotal"/>
+                                        </td>
+
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+
+                            <div style="width:100%; text-align:right; margin-top:15px; font-size:25px;">
+                                <strong>Total Amount :</strong>
+                                <span t-field="o.total_price"/>
+                            </div>
+
+                            <div style="width:100%; text-align:right; margin-top:15px; font-size:25px;">
+                                <strong>Paid Amount :</strong>
+                                <span t-field="o.paid_amount"/>
+                            </div>
+
+                            <div t-if="o.rest_of_paid != 0"
+                                 style="width:100%; text-align:right; margin-top:15px; font-size:25px;">
+                                <strong>Rest Paid :</strong>
+                                <span t-field="o.rest_of_paid"/>
+                            </div>
+
+                            <div t-if="o.remaining_amount != 0"
+                                 style="width:100%; text-align:right; margin-top:15px; font-size:25px;">
+                                <strong>Remaining Amount :</strong>
+                                <span t-field="o.remaining_amount"/>
+                            </div>
+
+                            <t t-set="state_color"
+                               t-value="'#28a745' if o.state == 'paid'
+                                else '#0d6efd' if o.state == 'draft'
+                                else '#ffc107' if o.state == 'partial'
+                                else '#dc3545'"/>
+
+                            <div style="width:100%; text-align:center; margin-top:15px; font-size:25px;">
+
+                                <strong>State :</strong>
+
+                                <span t-att-style="
+                                                    'display:inline-block;
+                                                     padding:5px 15px;
+                                                        border-radius:50px;
+                                                        color:white;
+                                                        font-size:20px;
+                                                        background-color:%s;' % state_color">
+
+                                    <span t-field="o.state"/>
+                                </span>
+
+                            </div>
+                            <br/>
+
+                            <div t-if="o.customer_id.all_remaining_amount != 0" style="margin-bottom:10px; width:100%; text-align:left; margin-top:15px; font-size:25px;">
+                                <strong>Total Remaining Amount :</strong>
+                                <span t-field="o.customer_id.all_remaining_amount"/>
+                            </div>
+
+                        </div>
+
+                    </t>
+
+                </t>
+
+            </t>
+
+        </template>
+
+    </data>
+
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="mgc_motorcycle_root"
+              name="Motorcycle Shop"
+              sequence="100"/>
+
+    <menuitem id="mgc_motorcycle_order"
+              name="Orders"
+              action="action_motorcycle_customer_order_view"
+              parent="mgc_motorcycle_root"
+              sequence="10"/>
+
+    <menuitem id="mgc_motorcycle_product"
+              name="Products"
+              action="action_motorcycle_product_template_view"
+              parent="mgc_motorcycle_root"
+              sequence="20"/>
+
+    <menuitem id="mgc_motorcycle_customer"
+              name="Customer"
+              action="action_motorcycle_customer_view"
+              parent="mgc_motorcycle_root"
+              sequence="30"/>
+</odoo>

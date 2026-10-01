@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <template id="report_product_sticker_template_view">
+
+            <t t-call="web.html_container">
+
+                <t t-foreach="docs" t-as="o">
+
+                    <t t-call="web.basic_layout">
+
+                        <!-- ONE LABEL = ONE PAGE -->
+                        <div class="page" style="
+                width: 50mm;
+                height: 30mm;
+                margin: 0;
+                padding: 2mm;
+                text-align: center;
+                font-size: 10px;
+                overflow: hidden;
+                page-break-after: always;
+            ">
+
+                            <!-- NAME -->
+                            <div style="font-weight:bold;">
+                                <span t-field="o.name"/>
+                            </div>
+
+                            <!-- BARCODE -->
+                            <img style="width:100%; height:11mm;"
+                                 t-att-src="'/report/barcode/Code128/' + o.name"
+                                 alt="barcode"/>
+
+                            <!-- CODE -->
+                            <div>
+                                <span t-esc="o.barcode or o.id"/>
+                            </div>
+                            <tr>
+                                <td class="label">Rrf :</td>
+                                <td class="value">
+                                    <t t-set="prefix" t-value="str((o.id * 73) % 1000) + 'RF'"/>
+                                    <t t-set="suffix" t-value="'X' + str((o.id * 17) % 90)"/>
+                                    <span t-esc="prefix + ' - ' + str(o.whole_sale_price) + ' - ' + suffix"/>
+                                </td>
+                            </tr>
+                            <br/>
+                            <tr>
+                                <td class="label">Price :</td>
+                                <td class="value">
+                                    <span t-esc="o.price"/>
+                                </td>
+                            </tr>
+
+                        </div>
+
+                    </t>
+
+                </t>
+
+            </t>
+
+        </template>
+
+    </data>
+
+</odoo>

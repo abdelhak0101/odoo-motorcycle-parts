@@ -1,0 +1,179 @@
+<odoo>
+    <record id="motorcycle_costumer_form_view" model="ir.ui.view">
+        <field name="name">motorcycle.customer.form.view</field>
+        <field name="model">motorcycle.customer</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="gender"/>
+                            <field name="customer_type"/>
+                        </group>
+
+                        <group>
+                            <field name="phone"/>
+                            <field name="email"/>
+                            <field name="address"/>
+                        </group>
+                    </group>
+
+                    <div style="font-size:17px; font-weight:bold; display:flex; align-items:center; gap:17px;">
+                        <span>Orders Remaining Amount :</span>
+
+                        <field name="order_remaining_amount"
+                               widget="monetary"
+                               readonly="1"
+                               decoration-danger="order_remaining_amount > 0"
+                               decoration-success="order_remaining_amount == 0"/>
+                    </div>
+
+                    <div style="font-size:17px; font-weight:bold; display:flex; align-items:center; gap:17px;">
+                        <span>Old Remaining Amount :</span>
+
+                        <field name="old_remaining_amount"
+                               widget="monetary"
+                               decoration-danger="order_remaining_amount > 0"
+                               decoration-success="order_remaining_amount == 0"/>
+                    </div>
+
+                    <div style="font-size:17px; font-weight:bold; display:flex; align-items:center; gap:17px;">
+                        <span>ALL Remaining Amount :</span>
+
+                        <field name="all_remaining_amount"
+                               widget="monetary"
+                               options="{'currency_field': 'currency_id'}"
+                               decoration-danger="all_remaining_amount > 0"
+                               decoration-success="all_remaining_amount == 0"/>
+                    </div>
+
+
+                    <notebook>
+                        <page string="Orders" name="orders">
+                            <field name="order_ids" readonly="1">
+                                <tree>
+                                    <field name="reference"/>
+                                    <field name="payment_method"/>
+                                    <field name="total_price"/>
+                                    <field name="state" widget="badge"
+                                           decoration-success="state == 'paid'"
+                                           decoration-info="state == 'draft'"
+                                           decoration-danger="state == 'cancel'"
+                                           decoration-warning="state == 'partial'"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="motorcycle_customer_tree_view" model="ir.ui.view">
+        <field name="name">motorcycle.customer.tree.view</field>
+        <field name="model">motorcycle.customer</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="image" widget="image" options="{'size': [40, 40]}"/>
+
+                <field name="name"/>
+                <field name="gender"/>
+                <field name="customer_type"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="address"/>
+                <field name="all_remaining_amount"
+                       widget="badge"
+                       decoration-danger="all_remaining_amount > 0"
+                       decoration-success="all_remaining_amount == 0"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="motorcycle_customer_kanban_view" model="ir.ui.view">
+        <field name="name">motorcycle.customer.kanban.view</field>
+        <field name="model">motorcycle.customer</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="name"/>
+                <field name="phone"/>
+                <field name="email"/>
+                <field name="gender"/>
+                <field name="customer_type"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+
+                        <div class="oe_kanban_card oe_kanban_global_click">
+
+                            <!-- TITLE -->
+                            <div class="o_kanban_record_title">
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+
+                            <!-- DETAILS -->
+                            <div class="oe_kanban_details">
+
+                                <ul style="margin: 0; padding-left: 15px;">
+
+                                    <li>
+                                        Gender:
+                                        <field name="gender"/>
+                                    </li>
+
+                                    <li>
+                                        Type:
+                                        <field name="customer_type"/>
+                                    </li>
+
+                                    <li>
+                                        Phone:
+                                        <field name="phone"/>
+                                    </li>
+
+                                    <li>
+                                        Email:
+                                        <field name="email"/>
+                                    </li>
+
+                                </ul>
+
+                            </div>
+
+                        </div>
+
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="customer_search_view" model="ir.ui.view">
+        <field name="name">customer.search.view</field>
+        <field name="model">motorcycle.customer</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"
+                       filter_domain="['|','|',('name', 'ilike', self), ('phone', 'ilike', self),('email', 'ilike',self)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_motorcycle_customer_view" model="ir.actions.act_window">
+        <field name="name">Customer</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">motorcycle.customer</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first customer !
+            </p>
+        </field>
+    </record>
+</odoo>

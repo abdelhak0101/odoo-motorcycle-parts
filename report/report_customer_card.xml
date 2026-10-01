@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_customer_id_card">
+        <t t-call="web.html_container">
+
+            <!-- Loop through selected records -->
+            <t t-foreach="docs" t-as="o">
+
+                <!-- Odoo standard report layout -->
+                <t t-call="web.internal_layout">
+
+                    <div class="page">
+
+                        <style>
+                            .customer-card {
+                            border: 2px solid #000;
+                            padding: 15px;
+                            width: 100%;
+                            border-radius: 8px;
+                            }
+
+                            .customer-title {
+                            text-align: center;
+                            font-size: 22px;
+                            font-weight: bold;
+                            margin-bottom: 15px;
+                            }
+
+                            .info-table {
+                            width: 100%;
+                            text-align: center;
+
+                            }
+
+                            .info-table td {
+                            padding: 6px 4px;
+                            vertical-align: top;
+                            text-align: center;
+
+                            }
+
+                            .label {
+                            font-weight: bold;
+                            width: 35%;
+                            text-align: center;
+
+                            }
+
+                            .separator {
+                            width: 5%;
+                            text-align: center;
+                            }
+
+                            .value {
+                            width: 60%;
+                            text-align: center;
+                            }
+
+                            .barcode-section {
+                            text-align: center;
+                            margin-top: 20px;
+                            }
+
+                            .customer-image {
+                            text-align: center;
+                            margin-bottom: 15px;
+                            }
+
+                            .customer-image img {
+                            width: 120px;
+                            height: 120px;
+                            border: 1px solid #000;
+                            }
+                        </style>
+
+                        <div class="customer-card">
+
+                             Customer Image
+                            <div class="customer-image">
+
+                                <!-- Default image if no image -->
+                                <img t-if="not o.image"
+                                     t-att-src="'/web/static/src/img/placeholder.png'"/>
+
+                                <!-- Customer image -->
+                                <img t-if="o.image"
+                                     t-att-src="image_data_uri(o.image)"
+                                     style="width:120px;height:120px;border:1px solid #000;"/>
+
+                            </div>
+
+                            <!-- Customer Name -->
+                            <div class="customer-title">
+                                <span t-field="o.name"/>
+                            </div>
+
+                            <!-- Information Table -->
+                            <table class="info-table">
+
+                                <tr>
+                                    <td class="label">Customer ID</td>
+                                    <td class="value">
+                                        <span t-esc="o.id"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label">Customer Type</td>
+                                    <td class="value">
+                                        <span t-field="o.customer_type"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label">Phone</td>
+                                    <td class="value">
+                                        <span t-field="o.phone"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label">Address</td>
+                                    <td class="value">
+                                        <span t-field="o.address"/>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td class="label">Remaining Amount</td>
+                                    <td class="value">
+                                        <span t-field="o.all_remaining_amount"/>
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                            <!-- QR Code -->
+<!--                            <div class="barcode-section">-->
+<!--                                <img t-att-src="'/report/barcode/QR/' + (o.name or '')"-->
+<!--                                     style="width:90px;height:90px;"-->
+<!--                                     alt="QR Code"/>-->
+<!--                            </div>-->
+
+                            <!-- Barcode -->
+<!--                            <div class="barcode-section">-->
+<!--                                <img t-att-src="'/report/barcode/Code128/' + (o.name or '')"-->
+<!--                                     style="width:250px;height:60px;"-->
+<!--                                     alt="Barcode"/>-->
+<!--                            </div>-->
+
+                        </div>
+
+                        <br/>
+
+                    </div>
+
+                </t>
+
+            </t>
+
+        </t>
+    </template>
+</odoo>
